@@ -13,7 +13,7 @@ total-variation-image-denoising/
 │   ├── pcg_solver.m            % Custom Preconditioned Conjugate Gradient solver
 │   └── set_image.m             % Generates target image geometry and synthetic Gaussian noise
 ├── docs/
-│   ├── theory.pdf              % Compiled LaTeX technical report detailing the PDE, the finite difference scheme, and linear system properties
+│   ├── theory.pdf              % Compiled LaTeX technical report detailing the PDE and its finite difference scheme
 │   └── theory.tex              % LaTeX source code
 ├── results/
 │   └── TV_Denoiser.pdf         % Exported MATLAB Live Script technical report
