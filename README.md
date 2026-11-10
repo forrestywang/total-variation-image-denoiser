@@ -8,17 +8,17 @@ For the complete mathematical background, refer to the following [report](docs/t
 
 ```
 total-variation-image-denoising/
-├── src/
-│   ├── form_matrix.m           % Assembles sparse SPD matrix A(u) from finite difference stencils
-│   ├── pcg_solver.m            % Custom Preconditioned Conjugate Gradient solver
-│   └── set_image.m             % Generates target image geometry and synthetic Gaussian noise
 ├── docs/
 │   ├── theory.pdf              % Compiled LaTeX technical report detailing the PDE and its finite difference scheme
 │   └── theory.tex              % LaTeX source code
 ├── results/
 │   └── TV_Denoiser.pdf         % Exported MATLAB Live Script technical report
 │   └── denoised_results.pdf    % Vector graphics export comparing original, noisy, and restored images
-├── TV_Denoiser.mlx             % Main MATLAB Live Script runner & benchmark suite
+├── src/
+│   ├── TV_Denoiser.mlx         % Main MATLAB Live Script runner & benchmark suite
+│   ├── form_matrix.m           % Assembles sparse SPD matrix A(u) from finite difference stencils
+│   ├── pcg_solver.m            % Custom Preconditioned Conjugate Gradient solver
+│   └── set_image.m             % Generates target image geometry and synthetic Gaussian noise
 ├── LICENSE                     % MIT License
 └── README.md
 
