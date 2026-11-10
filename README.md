@@ -13,7 +13,7 @@ total-variation-image-denoising/
 │   ├── pcg_solver.m            % Custom Preconditioned Conjugate Gradient solver
 │   └── set_image.m             % Generates target image geometry and synthetic Gaussian noise
 ├── docs/
-│   ├── theory.pdf              % Compiled LaTeX technical report detailing stencils and derivations
+│   ├── theory.pdf              % Compiled LaTeX technical report detailing the PDE, the finite difference scheme, and linear system properties
 │   └── theory.tex              % LaTeX source code
 ├── results/
 │   └── TV_Denoiser.pdf         % Exported MATLAB Live Script technical report
@@ -29,7 +29,7 @@ total-variation-image-denoising/
 Evaluated on a 512 × 512 **grid** (N = 262,144 total unknowns) with a noise-to-signal ratio of 1.00 across K = 8 outer lagged diffusivity iterations:
 
 * **Convergence:** Total iterations bounded under **1,000 cumulative inner PCG steps** across all 8 outer steps.
-* **Runtime:** Complete restoration executes in 25 **seconds**.
+* **Runtime:** Complete restoration executes in 25 **seconds** total execution time.
 * **Edge Preservation:** Successfully suppresses heavy Gaussian noise while preserving crisp boundary contours without structural bleeding.
 
 ## Getting Started
