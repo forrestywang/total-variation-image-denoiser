@@ -1,0 +1,71 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Total Variation Image Denoising}
+\author{Forrest Wang}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction to Total Variation Regularization}
+
+In PDE-based image denoising, using a simple Laplacian/diffusion approach yields overly smoothed images that fail to preserve important edges in the data. Total Variation (TV) regularization overcomes this limitation by preserving sharp boundaries. This is solved iteratively via the following PDE for $k \geq 0$:
+
+\begin{equation*}
+\begin{array}{rcll}
+-\alpha \nabla \cdot \left( \frac{1}{|\nabla u^{k}|} \nabla u^{k+1}(x,y) \right) + u^{k+1}(x,y) & = & u^{0}(x,y) & \hspace{0.8cm}
+\mbox{in $\; \Omega = (0,1)^2$},
+\end{array}
+\label{eqn:image}
+\end{equation*}
+
+\noindent The parameter $\alpha > 0$ controls the degree of smoothing applied. The diffusion coefficient $\frac{1}{|\nabla u^k|}$ preserves edges by penalizing gradients in high-contrast regions, which decreases the local diffusion rate. Conversely, in flat regions where the gradient is small, it increases diffusion to perform standard smoothing.
+
+\section{Finite Difference Stencil Discretization}
+
+One possible finite difference discretization of the PDE described above gives the following equation at each grid point $(x_{i}, y_{j})$:
+
+\begin{equation*}
+AC \, u_{i,j}^{k+1} + AW \, u_{i-1,j}^{k+1} + AE \, u_{i+1,j}^{k+1} + AS \, u_{i,j-1}^{k+1} + AN \, u_{i,j+1}^{k+1} = u_{i,j}^0
+\end{equation*}
+where
+\begin{eqnarray*}
+AW &=& - \frac{\alpha}{h^2} \left (
+       \frac{1}{2 \sqrt{ \left ( \frac{u_{i,j}^k-u_{i-1,j}^k}{h} \right )^2
+       + \left ( \frac{u_{i,j}^k-u_{i,j-1}^k}{h} \right )^2 + \beta}} +
+       \frac{1}{2\sqrt{ \left ( \frac{u_{i,j}^k-u_{i-1,j}^k}{h} \right )^2
+       + \left ( \frac{u_{i-1,j+1}^k-u_{i-1,j}^k}{h} \right )^2 + \beta}} \right ) \\
+AE &=& - \frac{\alpha}{h^2} \left(
+       \frac{1}{2 \sqrt{ \left ( \frac{u_{i+1,j}^k-u_{i,j}^k}{h} \right )^2
+       + \left ( \frac{u_{i+1,j}^k-u_{i+1,j-1}^k}{h} \right )^2 + \beta}} +
+       \frac{1}{2 \sqrt{ \left ( \frac{u_{i+1,j}^k-u_{i,j}^k}{h} \right )^2
+       + \left ( \frac{u_{i+1,j+1}^k-u_{i,j}^k}{h} \right )^2 + \beta}} \right ) \\
+AS &=& - \frac{\alpha}{h^2} \left(
+       \frac{1}{2 \sqrt{ \left ( \frac{u_{i,j}^k-u_{i-1,j}^k}{h} \right )^2
+       + \left ( \frac{u_{i,j}^k-u_{i,j-1}^k}{h} \right )^2 + \beta}} +
+       \frac{1}{2 \sqrt{ \left ( \frac{u_{i+1,j-1}^k-u_{i,j-1}^k}{h} \right )^2
+       + \left ( \frac{u_{i,j}^k-u_{i,j-1}^k}{h} \right )^2 + \beta}} \right ) \\
+AN &=& -\frac{\alpha}{h^2} \left(
+       \frac{1}{2 \sqrt{ \left ( \frac{u_{i+1,j}^k-u_{i,j}^k}{h} \right )^2
+       + \left ( \frac{u_{i,j+1}^k-u_{i,j}^k}{h} \right )^2 + \beta}} +
+       \frac{1}{2 \sqrt{ \left ( \frac{u_{i,j+1}^k-u_{i-1,j+1}^k}{h} \right )^2
+       + \left ( \frac{u_{i,j+1}^k-u_{i,j}^k}{h} \right )^2 + \beta}} \right) \\
+AC &=& -(AW + AE + AS + AN) + 1.
+\end{eqnarray*}
+
+\noindent Note that the coefficients above depend on the solution from the previous iteration $k$ rather than $k+1$. Here, $h$ is the grid spacing and $\beta = 10^{-6}$ is a small positive constant introduced to prevent division by zero in flat regions where $|\nabla u| = 0$. Assembling these equations across all grid points yields the sparse linear system:
+\begin{equation*}
+A(u^{k}) u^{k+1} = u^{0}
+\end{equation*}
+where the coefficient matrix $A(u^{k})$ depends on the current values of $u^{k}$.
+
+\section{Linear System Properties}
+
+The system matrix $A(u^k)$ is symmetric positive-definite (SPD) and maintains an identical sparse structure to the standard 5-point Laplacian stencil. Because high-contrast image regions lead to ill-conditioned systems, standard Conjugate Gradient (CG) iteration stalls. Applying an Incomplete Cholesky preconditioner dramatically accelerates convergence, restricting iteration counts to under $1,000$ steps and achieving 25-second runtimes on high-resolution $512 \times 512$ grids.
+
+\end{document}
