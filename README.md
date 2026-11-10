@@ -9,7 +9,7 @@ For the complete mathematical background, refer to the following [report](docs/t
 ```
 total-variation-image-denoising/
 ├── src/
-│   ├── form_matrix.m            % Assembles sparse SPD matrix A(u^k) from finite difference stencils
+│   ├── form_matrix.m           % Assembles sparse SPD matrix A(u) from finite difference stencils
 │   ├── pcg_solver.m            % Custom Preconditioned Conjugate Gradient solver
 │   └── set_image.m             % Generates target image geometry and synthetic Gaussian noise
 ├── docs/
