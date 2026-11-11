@@ -26,6 +26,8 @@ total-variation-image-denoising/
 
 ## Benchmarks & Performance
 
+![Denoised Images](results/denoised_images.png)
+
 Evaluated on a 512 × 512 **grid** (N = 262,144 total unknowns) with a noise-to-signal ratio of 1.00 across K = 8 outer lagged diffusivity iterations:
 
 * **Convergence:** Total iterations bounded under **1,000 cumulative inner PCG steps** across all 8 outer steps.
