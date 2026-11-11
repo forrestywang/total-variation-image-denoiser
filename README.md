@@ -13,7 +13,7 @@ total-variation-image-denoising/
 │   └── theory.tex              % LaTeX source code
 ├── results/
 │   └── TV_Denoiser.pdf         % Exported MATLAB Live Script technical report
-│   └── denoised_results.pdf    % Vector graphics export comparing original, noisy, and restored images
+│   └── denoised_images.png     % Vector graphics export comparing original, noisy, and restored images
 ├── src/
 │   ├── TV_Denoiser.mlx         % Main MATLAB Live Script runner & benchmark suite
 │   ├── form_matrix.m           % Assembles sparse SPD matrix A(u) from finite difference stencils
